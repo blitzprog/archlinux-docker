@@ -1,6 +1,7 @@
-DOCKER_USER:=pierres
-DOCKER_ORGANIZATION=archlinux
-DOCKER_IMAGE:=base
+DOCKER_USER:=blitzprog
+DOCKER_ORGANIZATION=blitzprog
+DOCKER_IMAGE:=archlinux
+EMAIL=e.urbach@gmail.com
 
 rootfs:
 	$(eval TMPDIR := $(shell mktemp -d))
@@ -20,7 +21,7 @@ docker-image-test: docker-image
 	docker run --rm $(DOCKER_ORGANIZATION)/$(DOCKER_IMAGE) sh -c "/usr/bin/pacman -Sy && /usr/bin/pacman -Qqk"
 	docker run --rm $(DOCKER_ORGANIZATION)/$(DOCKER_IMAGE) sh -c "/usr/bin/pacman -Syu --noconfirm docker && docker -v"
 	# Ensure that the image does not include a private key
-	! docker run --rm $(DOCKER_ORGANIZATION)/$(DOCKER_IMAGE) pacman-key --lsign-key pierre@archlinux.de
+	! docker run --rm $(DOCKER_ORGANIZATION)/$(DOCKER_IMAGE) pacman-key --lsign-key $(EMAIL)
 	docker run --rm $(DOCKER_ORGANIZATION)/$(DOCKER_IMAGE) sh -c "/usr/bin/id -u http"
 	docker run --rm $(DOCKER_ORGANIZATION)/$(DOCKER_IMAGE) sh -c "/usr/bin/pacman -Syu --noconfirm grep && locale | grep -q UTF-8"
 
